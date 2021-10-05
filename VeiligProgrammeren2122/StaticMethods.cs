@@ -129,5 +129,31 @@ namespace VeiligProgrammeren2122
                 digitCount >= minDigit && specialsCount >= minSpecial &&
                 password.Length >= minLength;
         }
+
+        public static string ShiftCypher(string text , int key)
+        {
+            //TODO: Update this method so that only letters are shifted
+            string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            string encryptedText = "";
+            foreach(char c in text)
+            {
+                int oldposition = alphabet.IndexOf(c);
+                int newposition = oldposition + key;
+                char newCharacter = alphabet[newposition % 52];
+                encryptedText += newCharacter.ToString();
+            }
+            return encryptedText;
+        }
+
+        public static string UnShiftCypher(string encryptedText , int key)
+        {
+            string decryptedText = "";
+            string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+            //TODO: Insert your code to decrypt the encrypted text using the given key
+            // Only letters should be unshifted
+
+            return decryptedText;
+        }
     }
 }

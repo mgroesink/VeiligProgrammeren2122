@@ -12,6 +12,7 @@ namespace VeiligProgrammeren2122.Controllers
     {
         public IActionResult Index()
         {
+            string secret = StaticMethods.ShiftCypher("abc123" , 2);
             return View();
         }
 
