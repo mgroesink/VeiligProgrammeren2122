@@ -41,38 +41,28 @@ namespace VeiligProgrammeren2122.Controllers
             return View();
         }
 
+        public ActionResult UpdatePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UpdatePassword(string username , string oldpassword , 
+            string newpassword , string confirmpassword)
+        {
+            ViewBag.Result = StaticMethods.ChangePassword(username, oldpassword, newpassword, confirmpassword);
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Login(string username , string password)
         {
-            SqlConnection conn = new SqlConnection();
-            string cs = "Server=sql6004.site4now.net;Database=DB_A2A0BC_vp;";
-            conn.ConnectionString = cs;
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "SELECT * FROM Users WHERE UserName = '" +
-                username + "' AND password = '" + password + "'";
-            cmd.Connection = conn;
-            conn.Open();
-            try
+            if(StaticMethods.CheckLogin(username , password))
             {
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    CookieOptions option = new CookieOptions();
-                    option.Expires = DateTime.Now.AddDays(7);
-                    Response.Cookies.Append("vp_username", username , option);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ViewBag.Error = "Login failed";
-                    return View();
-                }
+                return RedirectToAction("Privacy", "Home");
             }
-            catch(Exception ex)
-            {
-                ViewBag.Error = "Error connecting tot database";
-                return View();
-            }
+            ViewBag.Error = "Login failed";
+            return View();
         }
     }
 }
