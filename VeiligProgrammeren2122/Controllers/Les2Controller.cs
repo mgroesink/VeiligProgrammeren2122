@@ -45,7 +45,7 @@ namespace VeiligProgrammeren2122.Controllers
         public ActionResult Login(string username , string password)
         {
             SqlConnection conn = new SqlConnection();
-            string cs = "Server=sql6004.site4now.net;Database=DB_A2A0BC_vp;User Id=K0501;Password=ROCvT_K0501;";
+            string cs = "Server=sql6004.site4now.net;Database=DB_A2A0BC_vp;";
             conn.ConnectionString = cs;
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "SELECT * FROM Users WHERE UserName = '" +
