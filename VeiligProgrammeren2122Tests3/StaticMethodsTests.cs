@@ -37,5 +37,14 @@ namespace VeiligProgrammeren2122.Tests
 
             Assert.AreEqual("Jcnnq123", encrypted);
         }
+
+        [TestMethod()]
+        public void UnShiftCypherTest2()
+        {
+            string text = "Jcnnq123";
+            string decrypted = StaticMethods.UnShiftCypher(text, 2);
+
+            Assert.AreEqual("Hallo123", decrypted);
+        }
     }
 }

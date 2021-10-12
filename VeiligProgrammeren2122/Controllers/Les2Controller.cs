@@ -10,14 +10,25 @@ namespace VeiligProgrammeren2122.Controllers
 {
     public class Les2Controller : Controller
     {
+        static int attempts = 0;
         public IActionResult Index()
         {
-            string secret = StaticMethods.ShiftCypher("abc123" , 2);
+            string secret = StaticMethods.ShiftCypher("Hallo" , "ab");
+            string unshifted = StaticMethods.UnShiftCypher(secret, 2);
             return View();
         }
 
         public ActionResult Info()
         {
+            return View();
+        }
+
+        public ActionResult AddResults()
+        {
+            StaticMethods.CreateStudentResults("2021-2022" , 1);
+            StaticMethods.CreateStudentResults("2021-2022" , 2);
+            StaticMethods.CreateStudentResults("2021-2022" , 3);
+            StaticMethods.CreateStudentResults("2021-2022" , 4);
             return View();
         }
 
@@ -58,12 +69,15 @@ namespace VeiligProgrammeren2122.Controllers
         [HttpPost]
         public ActionResult Login(string username , string password)
         {
-            if(StaticMethods.CheckLogin(username , password))
+
+            if (StaticMethods.CheckLogin(username , password))
             {
                 return RedirectToAction("Privacy", "Home");
             }
             ViewBag.Error = "Login failed";
             return View();
         }
+
+
     }
 }

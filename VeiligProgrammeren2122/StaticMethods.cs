@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace VeiligProgrammeren2122
     public static class StaticMethods
     {
         private readonly static SqlConnection conn = 
-            new SqlConnection("Server=sql6004.site4now.net;Database=DB_A2A0BC_vp;");
+            new SqlConnection("Server=sql6004.site4now.net;Database=DB_A2A0BC_vp;User ID=DB_A2A0BC_vp_admin;Password=DELVI7cs");
 
         /// <summary>
         /// Checks the login.
@@ -60,6 +61,7 @@ namespace VeiligProgrammeren2122
         public static string ChangePassword(string username , string password , 
             string newpassword , string confirmpassword)
         {
+            
             if(!CheckLogin(username , password))
             {
                 return "username and/or old password incorrect";
@@ -140,9 +142,45 @@ namespace VeiligProgrammeren2122
                 int oldposition = alphabet.IndexOf(c);
                 int newposition = oldposition + key;
                 char newCharacter = alphabet[newposition % 52];
-                encryptedText += newCharacter.ToString();
+                if (oldposition >= 0)
+                    encryptedText += newCharacter.ToString();
+                else
+                    encryptedText += c.ToString();
             }
             return encryptedText;
+        }
+
+        public static string ShiftCypher(string text, string key)
+        {
+            //TODO: Encrypt text by using a non-numeric key
+            string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            string encryptedText = "";
+            string filledKey = FillKey(key, text.Length);
+            for(int i = 0; i < text.Length; i++)
+            {
+                int position = alphabet.IndexOf(text[i]);
+                if(position >= 0 )
+                {
+                    int keyvalue = position + alphabet.IndexOf(filledKey[i]);
+                    encryptedText += alphabet[keyvalue % 52];
+                }
+                else
+                {
+                    encryptedText += text[i];
+                }
+            }
+            return encryptedText;
+        }
+
+        private static string FillKey(string key , int length)
+        {
+            string filled = key;
+            while(filled.Length < length)
+            {
+                filled += key;
+            }
+
+            return filled.Substring(0,length);
         }
 
         public static string UnShiftCypher(string encryptedText , int key)
@@ -152,8 +190,47 @@ namespace VeiligProgrammeren2122
 
             //TODO: Insert your code to decrypt the encrypted text using the given key
             // Only letters should be unshifted
-
+            foreach (char c in encryptedText)
+            {
+                int oldposition = alphabet.IndexOf(c);
+                int newposition = oldposition - key;
+                char newCharacter = alphabet[(newposition + 52) % 52];
+                if (oldposition >= 0)
+                    decryptedText += newCharacter.ToString();
+                else
+                    decryptedText += c.ToString();
+            }
             return decryptedText;
+        }
+
+        public static void CreateStudentResults(string schooljaar , byte periode)
+        {
+            Random rnd = new Random();
+            DataTable students = new DataTable();
+            DataTable courses = new DataTable();
+            SqlCommand cmdStudents = new SqlCommand("SELECT * FROM Users", conn);
+            SqlCommand cmdCourses = new SqlCommand("SELECT * FROM VAK", conn);
+            SqlCommand cmdResult = new SqlCommand("" , conn);
+            conn.Open();
+            students.Load(cmdStudents.ExecuteReader());
+            courses.Load(cmdCourses.ExecuteReader());
+            conn.Close();
+            foreach(DataRow student in students.Rows)
+            {
+                foreach(DataRow course in courses.Rows)
+                {
+                    int points = rnd.Next(1, 10);
+                    conn.Open();
+                    cmdResult.CommandText =
+                        "INSERT INTO Cijfers(UserId , Vakcode , Resultaat , Schooljaar , Periode)" +
+                        " VALUES('" + student[0] + "' , '" + course[0] + "' , " +
+                        points.ToString() + ", '" + schooljaar + "', " +
+                        periode + ")";
+                    cmdResult.ExecuteReader();
+                    conn.Close();
+                }
+            }
+            conn.Close();
         }
     }
 }
