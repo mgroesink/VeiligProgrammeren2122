@@ -46,5 +46,56 @@ namespace VeiligProgrammeren2122.Tests
 
             Assert.AreEqual("Hallo123", decrypted);
         }
+
+        [TestMethod()]
+        public void ShiftCypherTest3()
+        {
+            string text = "Hallo123";
+            string encrypted = StaticMethods.ShiftCypher(text, "ABC");
+
+            Assert.AreEqual("Icomq123", encrypted);
+        }
+        [TestMethod()]
+        public void UnShiftCypherTest3()
+        {
+            string text = "Icomq123";
+            string decrypted = StaticMethods.UnShiftCypher(text, "ABC");
+
+            Assert.AreEqual("Hallo123", decrypted);
+        }
+        [TestMethod()]
+        public void ShiftCypherTest4()
+        {
+            string text = "Hallo123";
+            string encrypted = StaticMethods.ShiftCypher(text, "AaZz");
+
+            Assert.AreEqual("IBLlp123", encrypted);
+        }
+        [TestMethod()]
+        public void UnShiftCypherTest4()
+        {
+            string text = "IBLlp123";
+            string decrypted = StaticMethods.UnShiftCypher(text, "AaZz");
+
+            Assert.AreEqual("Hallo123", decrypted);
+        }
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentException),"Key should only contain letters")]
+        public void ShiftCypherTest5()
+        {
+            string text = "Hallo123";
+            string encrypted = StaticMethods.ShiftCypher(text, "A12z");
+
+            Assert.AreEqual("IBLlp123", encrypted);
+        }
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentException), "Key should only contain letters")]
+        public void UnShiftCypherTest5()
+        {
+            string text = "IBLlp123";
+            string decrypted = StaticMethods.UnShiftCypher(text, "A12z");
+
+            Assert.AreEqual("Hallo123", decrypted);
+        }
     }
 }

@@ -1,0 +1,14 @@
+﻿@using System.Data
+@model DataTable
+
+<table class="table table-bordered">
+    @foreach (DataRow row in Model.Rows)
+    {
+        <tr>
+            <td>@row.ItemArray[2]</td>
+            <td>@row.ItemArray[3]</td>
+            <td>@row.ItemArray[1]</td>
+            <td>@row.ItemArray[4]</td>
+        </tr>
+    }
+</table>

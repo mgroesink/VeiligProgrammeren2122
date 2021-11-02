@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -72,12 +73,26 @@ namespace VeiligProgrammeren2122.Controllers
 
             if (StaticMethods.CheckLogin(username , password))
             {
-                return RedirectToAction("Privacy", "Home");
+                (new HttpContextAccessor()).HttpContext.Session.SetString("userid", username);
+                return RedirectToAction("Dashboard");
             }
             ViewBag.Error = "Login failed";
             return View();
         }
 
+        public ActionResult GetResults(string userid)
+        {
+            string studentnumber = (new HttpContextAccessor()).HttpContext.Session.GetString("userid");
+            DataTable result = StaticMethods.GetResults(userid);
+            return View(result);
+        }
+
+        public ActionResult Dashboard()
+        {
+            ViewBag.studentnumber = (new HttpContextAccessor()).HttpContext.Session.GetString("userid");
+
+            return View();
+        }
 
     }
 }
