@@ -12,8 +12,11 @@ namespace VeiligProgrammeren2122
     /// </summary>
     public static class StaticMethods
     {
+
+        //private readonly static SqlConnection conn =
+        //    new SqlConnection("Server=sql6011.site4now.net;Database=DB_A2A0BC_vp;User ID=K0501;password=ROCvT_K0501");
         private readonly static SqlConnection conn =
-            new SqlConnection("Server=sql6011.site4now.net;Database=DB_A2A0BC_vp;User ID=DB_A2A0BC_vp_admin;");
+    new SqlConnection("Server=sql6011.site4now.net;Database=DB_A2A0BC_vp;User ID=DB_A2A0BC_vp_admin;password=JkkD#eC53jmDk#mM");
 
         #region Encryption en decryption methods
         /// <summary>
@@ -145,9 +148,9 @@ namespace VeiligProgrammeren2122
         {
             bool ok = false;
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "SELECT * FROM Users WHERE UserId = @USERID AND password = @PASSWORD";
-            cmd.Parameters.AddWithValue("@USERID", username);
-            cmd.Parameters.AddWithValue("@PASSWORD", password);
+            string sql = "SELECT * FROM Users WHERE UserId = '";
+            sql += username + "' AND password = '" + password + "'";
+            cmd.CommandText = sql;
             cmd.Connection = conn;
             try
             {
@@ -174,7 +177,6 @@ namespace VeiligProgrammeren2122
             DataTable result = new DataTable();
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "SELECT * FROM Cijfers WHERE UserId = '" + studentnumber + "'";
-            //cmd.Parameters.AddWithValue("@USERID", studentnumber);
             cmd.Connection = conn;
             try
             {
