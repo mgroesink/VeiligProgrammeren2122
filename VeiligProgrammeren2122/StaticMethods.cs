@@ -13,10 +13,8 @@ namespace VeiligProgrammeren2122
     public static class StaticMethods
     {
 
-        //private readonly static SqlConnection conn =
-        //    new SqlConnection("Server=sql6011.site4now.net;Database=DB_A2A0BC_vp;User ID=K0501;password=ROCvT_K0501");
         private readonly static SqlConnection conn =
-    new SqlConnection("Server=sql6011.site4now.net;Database=DB_A2A0BC_vp;User ID=DB_A2A0BC_vp_admin;password=JkkD#eC53jmDk#mM");
+    new SqlConnection("Server=sql6011.site4now.net;Database=DB_A2A0BC_vp;");
 
         #region Encryption en decryption methods
         /// <summary>
