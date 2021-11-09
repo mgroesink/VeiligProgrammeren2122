@@ -13,7 +13,7 @@ namespace VeiligProgrammeren2122
     public static class StaticMethods
     {
         private readonly static SqlConnection conn = 
-            new SqlConnection("Server=sql6004.site4now.net;Database=DB_A2A0BC_vp;User ID=DB_A2A0BC_vp_admin;Password=DELVI7cs");
+            new SqlConnection("Server=sql6004.site4now.net;Database=DB_A2A0BC_vp;User ID=DB_A2A0BC_vp_admin;");
 
         /// <summary>
         /// Checks the login.
